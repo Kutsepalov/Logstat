@@ -30,10 +30,10 @@ public final class Logs {
 	o.setDateTime(getDateTime(log));
 	o.setMethod(HTTPMethod.valueOf(getHTTPMethod(log)));
 	o.setRequest(getRequest(log));
-	o.setAnswerCode(getAnswerCode(log));
-	o.setAnswerSize(getAnswerSize(log));
+	o.setResponseCode(getAnswerCode(log));
+	o.setResponseSize(getAnswerSize(log));
 	o.setHttpVersion(getHTTPVersion(log));
-	o.setReferer(getReferer(log));
+	o.setReferrer(getReferer(log));
 	o.setUserAgent(getUserAgent(log));
 	return o;
     }
