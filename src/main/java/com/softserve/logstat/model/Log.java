@@ -109,7 +109,7 @@ public class Log {
     /**
      * @param referrer the referrer to set
      */
-    public void setreferrer(String referrer) {
+    public void setReferrer(String referrer) {
         this.referrer = referrer;
     }
     /**
