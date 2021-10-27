@@ -16,10 +16,10 @@ public class Log {
     private String dateTime;
     private HTTPMethod method;
     private String request;
-    private short answerCode;
-    private int answerSize;
+    private short responseCode;
+    private int responseSize;
     private String httpVersion;
-    private String referer;
+    private String referrer;
     private String userAgent;
     
     /**
@@ -53,22 +53,28 @@ public class Log {
         return httpVersion;
     }
     /**
-     * @return the referer
+     * @return the referrer
      */
-    public String getReferer() {
-        return referer;
+    public String getreferrer() {
+        return referrer;
     }
     /**
-     * @return the answerCode
+     * @return the responseCode
      */
-    public short getAnswerCode() {
-        return answerCode;
+    public short getResponseCode() {
+        return responseCode;
     }
     /**
      * @return the userAgent
      */
     public String getUserAgent() {
         return userAgent;
+    }
+    /**
+     * @return the responseSize
+     */
+    public int getResponseSize() {
+	return responseSize;
     }
     /**
      * @param ip the ip to set
@@ -101,16 +107,16 @@ public class Log {
         this.httpVersion = httpVersion;
     }
     /**
-     * @param referer the referer to set
+     * @param referrer the referrer to set
      */
-    public void setReferer(String referer) {
-        this.referer = referer;
+    public void setreferrer(String referrer) {
+        this.referrer = referrer;
     }
     /**
-     * @param answerCode the answerCode to set
+     * @param responseCode the responseCode to set
      */
-    public void setAnswerCode(short answerCode) {
-        this.answerCode = answerCode;
+    public void setResponseCode(short responseCode) {
+        this.responseCode = responseCode;
     }
     /**
      * @param ipInfo the ipInfo to set
@@ -118,6 +124,13 @@ public class Log {
     public void setUserAgent(String userAgent) {
         this.userAgent = userAgent;
     }
+    /**
+     * @param responseSize the responseSize to set
+     */
+    public void setResponseSize(int responseSize) {
+	this.responseSize = responseSize;
+    }
+    
     @Override
     public String toString() {
 	StringBuilder builder = new StringBuilder();
@@ -129,29 +142,17 @@ public class Log {
 	builder.append(method);
 	builder.append(", Request = ");
 	builder.append(request);
-	builder.append(", Answer code = ");
-	builder.append(answerCode);
-	builder.append(", Answer size = ");
-	builder.append(answerSize);
+	builder.append(", Response code = ");
+	builder.append(responseCode);
+	builder.append(", Response size = ");
+	builder.append(responseSize);
 	builder.append(", Http version = ");
 	builder.append(httpVersion);
-	builder.append(", Referer = ");
-	builder.append(referer);
+	builder.append(", Referrer = ");
+	builder.append(referrer);
 	builder.append(", User agent = ");
 	builder.append(userAgent);
 	builder.append("]");
 	return builder.toString();
-    }
-    /**
-     * @return the answerSize
-     */
-    public int getAnswerSize() {
-        return answerSize;
-    }
-    /**
-     * @param answerSize the answerSize to set
-     */
-    public void setAnswerSize(int answerSize) {
-        this.answerSize = answerSize;
     }
 }
