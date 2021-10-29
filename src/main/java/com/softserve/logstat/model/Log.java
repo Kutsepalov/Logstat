@@ -7,13 +7,15 @@
  */
 package com.softserve.logstat.model;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Max Kutsepalov
  *
  */
 public class Log {
     private String ip;
-    private String dateTime;
+    private LocalDateTime dateTime;
     private HTTPMethod method;
     private String request;
     private short responseCode;
@@ -31,7 +33,7 @@ public class Log {
     /**
      * @return the dateTime
      */
-    public String getDateTime() {
+    public LocalDateTime getDateTime() {
         return dateTime;
     }
     /**
@@ -55,7 +57,7 @@ public class Log {
     /**
      * @return the referrer
      */
-    public String getreferrer() {
+    public String getReferrer() {
         return referrer;
     }
     /**
@@ -85,7 +87,7 @@ public class Log {
     /**
      * @param dateTime the dateTime to set
      */
-    public void setDateTime(String dateTime) {
+    public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
     /**
