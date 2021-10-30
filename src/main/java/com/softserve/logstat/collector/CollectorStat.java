@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,41 +17,19 @@ public class CollectorStat {
     private Stream<Log> logStream;
     private Map<String, Integer> res;
 
-    public Map<String, Integer> collect(Stream<Log> logs,
-                                        boolean isUrl,
-                                        boolean isIp,
-                                        boolean isHttpVersion,
-                                        boolean isHttpMethod,
-                                        boolean isAnswerCode,
-                                        boolean isSize,
-                                        boolean isdateTime,
-                                        int size,
-                                        LocalDateTime time) throws Exception {
+    public Map<String, Integer> collect(Stream<Log> logs, Command command ) throws Exception {
 
-        logStream = logs.filter((log) -> {
-            if (isSize) {
-                return log.getAnswerSize() <= size;
-            } else {
-                return true;
-            }
-        }).filter((log) -> {
-            if (isdateTime) {
-                //log.getDateTime() <= time
-                return true;
-            } else {
-                return true;
-            }
-        });
+        logStream=logs.filter(command.getConditions().stream().reduce(log -> true, Predicate::and));
 
-        if (isUrl) {
+        if (command.getParamType() == ParamType.URL) {
             objectLogs = logStream.map(Log::getRequest);
-        } else if (isIp) {
+        } else if (command.getParamType() == ParamType.IP) {
             objectLogs = logStream.map(Log::getIp);
-        } else if (isHttpVersion) {
+        } else if (command.getParamType() == ParamType.HTTPVERSION) {
             objectLogs = logStream.map(Log::getHttpVersion);
-        } else if (isHttpMethod) {
+        } else if (command.getParamType() == ParamType.METHOD) {
             objectLogs = logStream.map(log -> String.valueOf(log.getMethod()));
-        } else if (isAnswerCode) {
+        } else if (command.getParamType() == ParamType.SC) {
             objectLogs = logStream.map(log -> String.valueOf(log.getAnswerCode()));
         } else {
             throw new Exception();
