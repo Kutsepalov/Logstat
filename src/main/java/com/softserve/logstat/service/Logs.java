@@ -7,6 +7,9 @@
  */
 package com.softserve.logstat.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.StringJoiner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,10 +33,10 @@ public final class Logs {
 	o.setDateTime(getDateTime(log));
 	o.setMethod(HTTPMethod.valueOf(getHTTPMethod(log)));
 	o.setRequest(getRequest(log));
-	o.setAnswerCode(getAnswerCode(log));
-	o.setAnswerSize(getAnswerSize(log));
+	o.setResponseCode(getAnswerCode(log));
+	o.setResponseSize(getAnswerSize(log));
 	o.setHttpVersion(getHTTPVersion(log));
-	o.setReferer(getReferer(log));
+	o.setReferrer(getReferer(log));
 	o.setUserAgent(getUserAgent(log));
 	return o;
     }
@@ -61,9 +64,12 @@ public final class Logs {
         	Pattern.compile("\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b"));
     }
     
-    public static String getDateTime(String log) {
-	return findByPattern(log, Pattern.compile("\\[(.*?)\\]"),1)
-		.replace(" +0000", "");
+    public static LocalDateTime getDateTime(String log) {
+	String time = findByPattern(log, Pattern.compile("\\[(.*?)\\]"),1);
+	String pattern = "dd/MMMM/yyyy:HH:mm:ss Z";
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern)
+	                .withLocale(Locale.ENGLISH);
+	return LocalDateTime.from(dtf.parse(time));
     }
     
     public static String getHTTPMethod(String log) {
