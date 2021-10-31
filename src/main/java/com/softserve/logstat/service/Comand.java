@@ -1,6 +1,8 @@
 package com.softserve.logstat.service;
 
 
+import java.util.ArrayList;
+
 /**
  * @author <Roman Grabovetskyi>
  *  mock class
@@ -10,4 +12,16 @@ package com.softserve.logstat.service;
 
 
 public class Comand {
+
+    int limit;
+    enum ParamTime{}
+/*List<T> Predicate;
+Список предикатов. Пока не реализован
+* */
+    String collectorType;
+
+
+
+
+
 }
