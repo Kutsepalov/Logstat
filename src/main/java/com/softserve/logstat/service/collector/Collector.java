@@ -18,7 +18,7 @@ import com.softserve.logstat.service.Comand;
  *
  */
 public interface Collector {
-    Map<Object, Object> collect(Stream<Log> logs);
+    Map<Report,Report> collect(Stream<Log> logs,Comand comand);
 
 
 

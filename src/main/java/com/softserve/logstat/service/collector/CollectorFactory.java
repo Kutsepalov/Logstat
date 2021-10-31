@@ -6,6 +6,11 @@ package com.softserve.logstat.service.collector;
 public class CollectorFactory {
     public static Collector choose(String str){
         try {
+            if(str.contains("-")){
+                str= (String) str.subSequence(1,str.length()-1);
+            }
+
+
             if (str == "top"){
                 return new CollectorTop();
             }

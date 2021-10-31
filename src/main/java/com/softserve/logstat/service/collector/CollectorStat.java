@@ -12,10 +12,10 @@ import java.util.stream.Stream;
  * mock class
  */
 public class CollectorStat implements Collector {
+
+
     @Override
-    public Map<Object, Object> collect(Stream<Log> logs) {
+    public Map<Report, Report> collect(Stream<Log> logs, Comand comand) {
         return null;
     }
-
-
 }
