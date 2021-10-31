@@ -12,14 +12,14 @@ import java.util.stream.Stream;
 
 import com.softserve.logstat.model.Log;
 import com.softserve.logstat.model.report.Report;
-import com.softserve.logstat.service.Comand;
+import com.softserve.logstat.service.Command;
 
 /**
  * @author <paste here your name>
  *
  */
 public interface Collector {
-    Report collect(Stream<Log> logs, Comand comand);
+    Report collect(Stream<Log> logs, Command comand);
 
 
 

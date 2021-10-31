@@ -4,7 +4,7 @@ package com.softserve.logstat.service;
 import java.util.ArrayList;
 
 /**
- * @author <Roman Grabovetskyi>
+ * @author Roman Grabovetskyi
  *  mock class
  */
 
