@@ -11,8 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.softserve.logstat.model.Log;
 
@@ -31,10 +30,10 @@ public class LogFileReader {
      * @param args
      * @throws IOException 
      */
-    public List<Log> readAll () {
-	List<Log> logs;
+    public Stream<Log> readAll () {
+	Stream<Log> logs;
 	try(BufferedReader br = Files.newBufferedReader(Paths.get(filePath))){
-	    logs = br.lines().map(Logs::parse).collect(Collectors.toList());
+	    logs = br.lines().map(Logs::parse);
 	} catch (IOException e)  {
 	    throw new IllegalArgumentException("Can't read the file: " + filePath);
 	}
