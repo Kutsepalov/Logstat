@@ -1,5 +1,8 @@
 package com.softserve.logstat.service.collector;
-
+/**
+ * @author <Roman Grabovetskyi>
+ *
+ */
 public class CollectorFactory {
     public static Collector choose(String str){
         try {
