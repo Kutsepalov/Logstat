@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 
 
-public class Comand {
+public class Command {
 
     int limit;
     enum ParamTime{}
