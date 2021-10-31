@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * @author <Roman Grabovetskyi>
+ * @author Roman Grabovetskyi
  * mock class
  */
 public class CollectorStat implements Collector {
@@ -17,8 +17,5 @@ public class CollectorStat implements Collector {
         return null;
     }
 
-    @Override
-    public void execute(Comand comand, Stream<Log> logs) {
 
-    }
 }

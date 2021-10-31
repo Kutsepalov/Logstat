@@ -21,6 +21,6 @@ public interface Collector {
     Map<Object, Object> collect(Stream<Log> logs);
 
 
-void execute(Comand comand, Stream<Log> logs);
+
 
 }
