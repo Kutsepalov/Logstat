@@ -33,8 +33,8 @@ public final class Logs {
 	o.setDateTime(getDateTime(log));
 	o.setMethod(HTTPMethod.valueOf(getHTTPMethod(log)));
 	o.setRequest(getRequest(log));
-	o.setResponseCode(getAnswerCode(log));
-	o.setResponseSize(getAnswerSize(log));
+	o.setResponseCode(getResponseCode(log));
+	o.setResponseSize(getResponseSize(log));
 	o.setHttpVersion(getHTTPVersion(log));
 	o.setReferrer(getReferer(log));
 	o.setUserAgent(getUserAgent(log));
@@ -49,12 +49,12 @@ public final class Logs {
 	return findByPattern(log, Pattern.compile("\\\"(-|http.+?)\\\" \\\"(.+)"),2);
     }
     
-    public static short getAnswerCode(String log) {
+    public static short getResponseCode(String log) {
 	String value = findByPattern(log, Pattern.compile("\\s(\\d{3})\\s(\\d{1,}|-)\\s"), 1);
 	return Short.parseShort(value.trim());
     }
     
-    public static int getAnswerSize(String log) {
+    public static int getResponseSize(String log) {
 	String value = findByPattern(log, Pattern.compile("\\s(\\d{3})\\s(\\d{1,}|-)\\s"), 2);
 	return Integer.parseInt(value.replace('-', '0'));
     }
