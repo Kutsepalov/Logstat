@@ -2,6 +2,7 @@ package com.softserve.logstat.service.collector;
 
 
 import com.softserve.logstat.model.Log;
+import com.softserve.logstat.model.report.Report;
 import com.softserve.logstat.service.Comand;
 
 import java.util.Map;
@@ -15,7 +16,7 @@ public class CollectorTop implements Collector {
 
 
     @Override
-    public Map<Report, Report> collect(Stream<Log> logs, Comand comand) {
+    public Report collect(Stream<Log> logs, Comand comand) {
         return null;
     }
 }

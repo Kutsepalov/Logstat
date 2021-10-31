@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import com.softserve.logstat.model.Log;
+import com.softserve.logstat.model.report.Report;
 import com.softserve.logstat.service.Comand;
 
 /**
@@ -18,7 +19,7 @@ import com.softserve.logstat.service.Comand;
  *
  */
 public interface Collector {
-    Map<Report,Report> collect(Stream<Log> logs,Comand comand);
+    Report collect(Stream<Log> logs, Comand comand);
 
 
 

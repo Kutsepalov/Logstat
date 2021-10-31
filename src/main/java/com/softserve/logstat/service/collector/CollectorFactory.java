@@ -4,28 +4,19 @@ package com.softserve.logstat.service.collector;
  *
  */
 public class CollectorFactory {
+
     public static Collector choose(String str){
-        try {
-            if(str.contains("-")){
-                str= (String) str.subSequence(1,str.length()-1);
-            }
+        return switch (str) {
+                case "top", "-top" ->  new CollectorTop();
 
+                case "stat", "-stat" -> new CollectorStat();
 
-            if (str == "top"){
-                return new CollectorTop();
-            }
-            else if (str == "stat"){
-                return new CollectorStat();
-            }
-            else if (str == "find"){
-                return new CollectorFind();
-            }
-            else {
-                throw new IllegalArgumentException();
-            }
-        }catch (IllegalArgumentException e){
-            System.out.println("Wrong flag entered");
-        }
-        return null;
+                case "find", "-find" ->new  CollectorFind();
+
+     default -> {
+                    System.out.println("Wrong flag entered");
+                    throw  new IllegalArgumentException();
+                }
+            };
     }
 }
