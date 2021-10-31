@@ -17,9 +17,12 @@ public class CollectorStat {
     private Stream<Log> logStream;
     private Map<String, Integer> res;
 
-    public Map<String, Integer> collect(Stream<Log> logs, Command command ) throws Exception {
-
-        logStream=logs.filter(command.getConditions().stream().reduce(log -> true, Predicate::and));
+    public Map<String, Integer> collect(Stream<Log> logs, Command command) throws Exception {
+        if (!command.getPredicates().isEmpty()) {
+            logStream = logs.filter(command.getPredicates().stream().reduce(log -> true, Predicate::and));
+        } else {
+            logStream = logs;
+        }
 
         if (command.getParamType() == ParamType.URL) {
             objectLogs = logStream.map(Log::getRequest);
@@ -27,10 +30,10 @@ public class CollectorStat {
             objectLogs = logStream.map(Log::getIp);
         } else if (command.getParamType() == ParamType.HTTPVERSION) {
             objectLogs = logStream.map(Log::getHttpVersion);
-        } else if (command.getParamType() == ParamType.METHOD) {
+        } else if (command.getParamType() == ParamType.HTTPMETHOD) {
             objectLogs = logStream.map(log -> String.valueOf(log.getMethod()));
-        } else if (command.getParamType() == ParamType.SC) {
-            objectLogs = logStream.map(log -> String.valueOf(log.getAnswerCode()));
+        } else if (command.getParamType() == ParamType.RC) {
+            objectLogs = logStream.map(log -> String.valueOf(log.getResponseCode()));
         } else {
             throw new Exception();
         }
