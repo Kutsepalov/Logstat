@@ -1,4 +1,4 @@
-package com.softserve.logstat.service;
+package com.softserve.logstat.model;
 
 
 import java.util.ArrayList;
