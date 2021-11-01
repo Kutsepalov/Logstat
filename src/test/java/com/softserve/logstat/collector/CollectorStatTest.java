@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CollectorStatTest {
     private ArrayList<Log> logs = new ArrayList<>();
     private CollectorStat collectorStat;
+    private ReportStat reporterStat;
     private Log copyLog1;
     private Log log1;
     private Log log2;
@@ -23,7 +24,6 @@ class CollectorStatTest {
     private Log log4;
     private Log log5;
     private HashMap<String, Integer> statisticManual;
-    private HashMap statisticAuto;
 
     @BeforeEach
     void start() {
@@ -92,88 +92,88 @@ class CollectorStatTest {
 
     @Test
     @DisplayName("Find -url statistic(one log is copy).")
-    void collect1() throws Exception {
+    void collect1() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(copyLog1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log3.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
         statisticManual.put(log5.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
 
     @Test
     @DisplayName("Find -ip statistic(one log is copy).")
-    void collect2() throws Exception {
+    void collect2() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "ip"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log1.getIp(), 2);
         statisticManual.put(log2.getIp(), 1);
         statisticManual.put(log3.getIp(), 1);
         statisticManual.put(log4.getIp(), 1);
         statisticManual.put(log5.getIp(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
 
     @Test
     @DisplayName("Find -httpVersion statistic(log1,log2,log3,copyLog1 -> 1.1, log4,log5 -> 2.0).")
-    void collect3() throws Exception {
+    void collect3() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "httpv"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(String.valueOf(log1.getHttpVersion()), 4);
         statisticManual.put(String.valueOf(log5.getHttpVersion()), 2);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
 
     @Test
     @DisplayName("Find -codeResponse statistic(log1,log2,log3,copyLog1 -> 200, log4 -> 404, log5 -> 500).")
-    void collect4() throws Exception {
+    void collect4() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "rc"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(String.valueOf(log1.getResponseCode()), 4);
         statisticManual.put(String.valueOf(log4.getResponseCode()), 1);
         statisticManual.put(String.valueOf(log5.getResponseCode()), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -httpMethod statistic(log1,log2,copyLog1 -> GET, log3,log4-> POST log5 -> PUT).")
-    void collect5() throws Exception {
+    void collect5() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "httpm"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(String.valueOf(log1.getMethod()), 3);
         statisticManual.put(String.valueOf(log3.getMethod()), 2);
         statisticManual.put(String.valueOf(log5.getMethod()), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by size with less(one log is copy).The log5,log3 will not be in result")
-    void collect6() throws Exception {
+    void collect6() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -183,16 +183,16 @@ class CollectorStatTest {
                 "500"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(copyLog1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by size with more(one log is copy).The log2,log1,log1Copy will not be in result")
-    void collect7() throws Exception {
+    void collect7() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -202,16 +202,16 @@ class CollectorStatTest {
                 "400"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log2.getRequest(), 2);
         statisticManual.put(log3.getRequest(), 1);
         statisticManual.put(log5.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by 2 different size(one log is copy).The log5,log2,log1,log1Copy will not be in result")
-    void collect8() throws Exception {
+    void collect8() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -224,15 +224,15 @@ class CollectorStatTest {
                 "700"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log2.getRequest(), 2);
         statisticManual.put(log3.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by size with equals(one log is copy).The log5 will be in result")
-    void collect9() throws Exception {
+    void collect9() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -242,14 +242,14 @@ class CollectorStatTest {
                 "700"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by size with not equals(one log is copy).The log5 will not be in result")
-    void collect10() throws Exception {
+    void collect10() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -259,17 +259,17 @@ class CollectorStatTest {
                 "700"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log3.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with not equals(one log is copy).The log5 will not be in result")
-    void collect11() throws Exception {
+    void collect11() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -279,17 +279,17 @@ class CollectorStatTest {
                 "22019-05-05T12:15"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log3.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with equals(one log is copy).The log5 will not be in result")
-    void collect12() throws Exception {
+    void collect12() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -299,14 +299,14 @@ class CollectorStatTest {
                 "2019-05-05T12:15"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with less(one log is copy).The log5,log4 will not be in result")
-    void collect13() throws Exception {
+    void collect13() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -316,16 +316,16 @@ class CollectorStatTest {
                 "2019-05-04T12:15"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log3.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with more(one log is copy).The log5,log4 will be in result")
-    void collect14() throws Exception {
+    void collect14() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -335,15 +335,15 @@ class CollectorStatTest {
                 "2019-05-04T12:15"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with between(one log is copy).The log5,log4 will be in result")
-    void collect15() throws Exception {
+    void collect15() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "-stat",
                 "url",
@@ -354,10 +354,10 @@ class CollectorStatTest {
                 "2019-05-05T12:15"
         };
         Command command = new ArgParser().chooseCollectorType(arguments);
-        statisticAuto = (HashMap) collectorStat.collect(logs.stream(),command);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, statisticAuto);
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
 }

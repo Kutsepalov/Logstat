@@ -2,28 +2,45 @@ package com.softserve.logstat.collector;
 
 import com.softserve.logstat.model.Log;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The class implements a simple logic for collecting statistics witch based on the main arguments.
+ * The class has private field objectLogs, that's field represents stream which was filtered by main arguments.
+ * The class has private field logStream, that's field represents stream which was filtered by additional arguments.
+ * The class has private field res, that's field represents collection with result statistic.
+ * @autor Dmitri Chistiuk
+ */
 public class CollectorStat {
-    private Integer startValue = 1;
     private Stream<String> objectLogs;
     private Stream<Log> logStream;
     private Map<String, Integer> res;
 
-    public Map<String, Integer> collect(Stream<Log> logs, Command command) throws Exception {
-        if (!command.getPredicates().isEmpty()) {
-            logStream = logs.filter(command.getPredicates().stream().reduce(log -> true, Predicate::and));
-        } else {
-            logStream = logs;
-        }
+    /**
+     *
+     * @param logs represents stream from instances of class Log. Instances are logs from input file.
+     * @param command represents instance of class Command witch contains parsed cmd arguments.
+     * @return interface instance Report witch responsible for writing result statistic correctly.
+     * @throws IllegalArgumentException when as main argument gets unexpected parameter.
+     */
+    public Report collect(Stream<Log> logs, Command command) throws IllegalArgumentException {
+        filterByAdditionalParam(logs, command);
+        collectionByMainParam(command);
+        res = objectLogs.collect(Collectors.toMap(Function.identity(), value -> 1, Integer::sum));
+        ReportStat reporterStat = new ReportStat();
+        reporterStat.setStatRes(res);
+        return reporterStat;
+    }
 
+    /**
+     * The method implements a logic for filtering logStream by main arguments such as IP,CR,URL,HTTPVersion
+     * @param command represents instance of class Command witch contains parsed cmd arguments.
+     */
+    private void collectionByMainParam(Command command) {
         if (command.getParamType() == ParamType.URL) {
             objectLogs = logStream.map(Log::getRequest);
         } else if (command.getParamType() == ParamType.IP) {
@@ -35,11 +52,20 @@ public class CollectorStat {
         } else if (command.getParamType() == ParamType.RC) {
             objectLogs = logStream.map(log -> String.valueOf(log.getResponseCode()));
         } else {
-            throw new Exception();
+            throw new IllegalArgumentException("Failed to collect statistic using" + command.getParamType());
         }
-
-        res = objectLogs.collect(Collectors.toMap(Function.identity(), (value) -> 1, Integer::sum));
-        return res;
     }
 
+    /**
+     * The method implements a logic for filtering logs by additional arguments such as -time or -size.
+     * @param logs represents stream from instances of class Log. Instances are logs from input file.
+     * @param command represents instance of class Command witch contains parsed cmd arguments.
+     */
+    private void filterByAdditionalParam(Stream<Log> logs, Command command) {
+        if (!command.getPredicates().isEmpty()) {
+            logStream = logs.filter(command.getPredicates().stream().reduce(log -> true, Predicate::and));
+        } else {
+            logStream = logs;
+        }
+    }
 }
