@@ -1,4 +1,4 @@
-package java.logstat.service.collector;
+package com.softserve.logstat.service.collector;
 
 import com.softserve.logstat.service.collector.*;
 import org.junit.jupiter.api.Test;
