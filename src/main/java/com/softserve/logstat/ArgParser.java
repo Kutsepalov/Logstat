@@ -1,7 +1,10 @@
-package com.softserve.logstat.collector;
+package com.softserve.logstat;
 
+import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.HTTPMethod;
 import com.softserve.logstat.model.Log;
+import com.softserve.logstat.model.ParamType;
+import com.softserve.logstat.service.collector.CollectorStat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +15,10 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Класс-заглушка для тестов.
+ * @author Dmirti Chistiuk
+ */
 public class ArgParser {
 
     public Command chooseCollectorType(String[] args) {
@@ -234,52 +241,5 @@ public class ArgParser {
         }
 
         return count;
-    }
-
-    public static void main(String[] args) throws Exception {
-        String[] arguments = new String[]{
-                "-stat",
-                "httpv"
-        };
-        Command command = new ArgParser().chooseCollectorType(arguments);
-        Log log = new Log();
-        CollectorStat collectorStat = new CollectorStat();
-        List<Log> logs = new ArrayList<>();
-        Log log1 = new Log();
-        log1.setRequest("http:/1");
-        log1.setIp("1");
-        log1.setResponseCode((short) 200);
-        log1.setHttpVersion("1.1");
-        log1.setMethod(HTTPMethod.GET);
-        log1.setResponseSize(100);
-        Log log2 = new Log();
-        log2.setRequest("http:/2");
-        log2.setIp("2");
-        log2.setResponseCode((short) 200);
-        log2.setHttpVersion("1.1");
-        log2.setMethod(HTTPMethod.GET);
-        log2.setResponseSize(200);
-        Log log3 = new Log();
-        log3.setRequest("http:/3");
-        log3.setIp("3");
-        log3.setResponseCode((short) 200);
-        log3.setHttpVersion("1.1");
-        log3.setMethod(HTTPMethod.POST);
-        log3.setResponseSize(300);
-        Log copyLog1 = new Log();
-        copyLog1.setRequest("http:/1");
-        copyLog1.setIp("1");
-        copyLog1.setResponseCode((short) 200);
-        copyLog1.setHttpVersion("1.1");
-        copyLog1.setMethod(HTTPMethod.GET);
-        copyLog1.setResponseSize(100);
-
-        logs.add(log1);
-        logs.add(log2);
-        logs.add(log3);
-        logs.add(copyLog1);
-
-        HashMap result = (HashMap<String, Integer>) collectorStat.collect(logs.stream(),command);
-        System.out.println(result.toString());
     }
 }

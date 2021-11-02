@@ -1,9 +1,9 @@
 package com.softserve.logstat.service.collector;
 
 
+import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.Log;
 import com.softserve.logstat.model.report.Report;
-import com.softserve.logstat.model.Command;
 
 import java.util.stream.Stream;
 
@@ -12,7 +12,6 @@ import java.util.stream.Stream;
  * mock class
  */
 public class CollectorTop implements Collector {
-
 
     @Override
     public Report collect(Stream<Log> logs, Command comand) {

@@ -7,11 +7,23 @@
  */
 package com.softserve.logstat.model.report;
 
+import java.util.Map;
+
 /**
  * @author <paste here your name>
  *
  */
 public class ReportStat implements Report {
+
+    private Map<String,Integer> res;
+
+    public Map<String, Integer> getRes() {
+        return res;
+    }
+
+    public void setRes(Map<String, Integer> res) {
+        this.res = res;
+    }
 
     @Override
     public String getAsString() {
