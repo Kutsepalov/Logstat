@@ -2,7 +2,10 @@
 bin/*
 .idea/*
 target/*
+pom.xml
 
+<<<<<<< HEAD
+=======
 # target dir
 target/*
 
@@ -12,15 +15,7 @@ target/*
 # .pom file
 *.xml
 
-# target dir
-target/*
-
-# .idea dir
-.idea/*
-
-# .pom file
-*.xml
-
+>>>>>>> 6f9b496 (smth)
 # Log file
 *.log
 
