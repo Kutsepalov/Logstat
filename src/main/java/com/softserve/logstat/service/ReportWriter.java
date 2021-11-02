@@ -1,8 +1,8 @@
 /**
  * Copyright 2021
- * <p>
+ * 
  * All rights reserved.
- * <p>
+ * 
  * Created on Oct 29, 2021 3:21:03 PM
  */
 package com.softserve.logstat.service;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 
 /**
- * @author <Dmitriy Veretelnikov>
+ * @author Dmitriy Veretelnikov
  */
 public class ReportWriter {
     private static boolean firstLine = true;
@@ -64,19 +64,4 @@ public class ReportWriter {
             }
         }
     }
-
-    public static void main(String[] args) throws IOException {
-        ReportStat rep = new ReportStat();
-        Map<String, Integer> map = new LinkedHashMap<>();
-//        map.put("83.149.9.216", 10);
-//        map.put("24.236.252.67", 32);
-//        map.put("50.16.19.13", 4);
-//        map.put("110.136.166.128", 154);
-//        map.put("110.12.166.128", 154);
-        rep.setStatRes(map);
-        ReportWriter rw = new ReportWriter("output.txt");
-        rw.write(rep);
-    }
-
-
 }
