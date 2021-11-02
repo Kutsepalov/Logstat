@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  * The class has private field objectLogs, that's field represents stream which was filtered by main arguments.
  * The class has private field logStream, that's field represents stream which was filtered by additional arguments.
  * The class has private field res, that's field represents collection with result statistic.
- * @autor Dmitri Chistiuk
+ * @author Dmitri Chistiuk
  */
 public class CollectorStat implements Collector{
     private Stream<String> objectLogs;

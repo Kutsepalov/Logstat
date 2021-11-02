@@ -4,11 +4,9 @@ import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.HTTPMethod;
 import com.softserve.logstat.model.Log;
 import com.softserve.logstat.model.ParamType;
-import com.softserve.logstat.service.collector.CollectorStat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
