@@ -7,6 +7,8 @@
  */
 package com.softserve.logstat.model.report;
 
+import java.util.List;
+
 /**
  * @author <paste here your name>
  *
@@ -14,7 +16,7 @@ package com.softserve.logstat.model.report;
 public class ReportFind implements Report {
 
     @Override
-    public String getAsString() {
+    public List<String> getAsList() {
 	// TODO Auto-generated method stub
 	return null;
     }
