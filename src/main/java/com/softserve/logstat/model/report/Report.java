@@ -7,10 +7,13 @@
  */
 package com.softserve.logstat.model.report;
 
+
+import java.util.List;
+
 /**
  * @author <paste here your name>
  *
  */
 public interface Report {
-    String getAsString();
+    List<String> getAsList();
 }
