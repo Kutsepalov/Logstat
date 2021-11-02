@@ -1,8 +1,8 @@
 /**
  * Copyright 2021
- * <p>
+ * 
  * All rights reserved.
- * <p>
+ * 
  * Created on Oct 29, 2021 3:32:54 PM
  */
 package com.softserve.logstat.model.report;
@@ -10,7 +10,7 @@ package com.softserve.logstat.model.report;
 import java.util.*;
 
 /**
- * @author <Dmitriy Veretelnikov>
+ * @author Dmitriy Veretelnikov
  */
 public class ReportStat implements Report {
     private Map<String, Integer> statRes;
