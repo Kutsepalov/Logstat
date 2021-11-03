@@ -24,11 +24,16 @@ public class CollectorTop implements Collector {
 		};
 
 		var result = logs
-				.filter(command.getFilters().isEmpty() ? 
-						log -> true :
-					    command.getFilters().stream().reduce(cond -> true, Predicate::and))
-				.map(x -> getFieldByParam(command.getType(), x).toString()).collect(groupingBy(log -> log, counting()))
-				.entrySet().stream().sorted((x, y) -> y.getValue().compareTo(x.getValue())).limit(command.getLimit())
+				.filter(command.getFilters().isEmpty() ? log -> true :
+					    command.getFilters()
+					    .stream()
+					    .reduce(cond -> true, Predicate::and))
+				.map(x -> getFieldByParam(command.getType(), x).toString())
+				.collect(groupingBy(log -> log, counting()))
+				.entrySet()
+				.stream()
+				.sorted((x, y) -> y.getValue().compareTo(x.getValue()))
+				.limit(command.getLimit())
 				.peek(log -> setPosition(log, wrapper.place++))
 				.collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().intValue()));
 
