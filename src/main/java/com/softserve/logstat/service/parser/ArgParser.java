@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ArgParser {
+    private static final  String HTTP_METHOD = "httpmethod";
 
     public void chooseCollectorType(String[] args, Command command) {
 
@@ -83,11 +84,12 @@ public class ArgParser {
 
     private boolean isTxt(String string) {
         Matcher m = Pattern.compile(".txt").matcher(string);
+        boolean res = false;
 
         if (m.find()) {
-            return true;
+            res =  true;
         }
-        return false;
+        return res;
     }
 
     private int countTxtFiles(String[] args) {
@@ -97,7 +99,7 @@ public class ArgParser {
                 .matcher(argString);
 
 
-        for (String s : args) {
+        for (int i = 0; i < args.length; i++) {
             if (m.find()) {
                 count++;
             }
@@ -233,7 +235,7 @@ public class ArgParser {
         addPredicate(arguments, predicates, "ip");
         addPredicate(arguments, predicates, "size");
         addPredicate(arguments, predicates, "sc");
-        addPredicate(arguments, predicates, "httpmethod");
+        addPredicate(arguments, predicates, HTTP_METHOD);
         addPredicate(arguments, predicates, "httpversion");
         addPredicate(arguments, predicates, "agent");
         addPredicate(arguments, predicates, "referrer");
@@ -307,7 +309,7 @@ public class ArgParser {
             case "sc":
                 field = log.getResponseCode();
                 break;
-            case "httpmethod":
+            case HTTP_METHOD:
                 field = log.getMethod();
                 break;
             case "httpversion":
@@ -334,7 +336,7 @@ public class ArgParser {
             case "size":
                 val = Integer.valueOf(value);
                 break;
-            case "httpmethod":
+            case HTTP_METHOD:
                 val = HTTPMethod.valueOf(value);
                 break;
             case "sc":
@@ -412,7 +414,7 @@ public class ArgParser {
                 .matcher(argString);
 
 
-        for (String s : arguments) {
+        for (int i = 0; i < arguments.length; i++) {
             if (m.find()) {
                 count++;
             }
@@ -426,5 +428,6 @@ public class ArgParser {
 
         return count;
     }
+
 
 }
