@@ -1,6 +1,6 @@
 # Compiled class file
 bin/*
-pom.xml
+/pom.xml
 
 # target dir
 target/*
