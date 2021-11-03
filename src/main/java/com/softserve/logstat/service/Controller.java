@@ -7,6 +7,8 @@
  */
 package com.softserve.logstat.service;
 
+import java.io.IOException;
+
 import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.report.Report;
 import com.softserve.logstat.service.collector.Collector;
@@ -17,16 +19,22 @@ import com.softserve.logstat.service.collector.CollectorFactory;
  *
  */
 public class Controller {
-    private LogFileReader reader;
+    private ReportWriter writer = new ReportWriter();
+    private LogFileReader reader = new LogFileReader(null);
     
     public void execute(Command command) {
-	reader = new LogFileReader(command.getInputFilePath());
-	Collector collector = CollectorFactory.choose(command.getName());
+	reader.setFilePath((command.getInputFile()));
+	Collector collector = CollectorFactory.choose(command.getCollectorType());
 	Report report = collector.collect(reader.readAll(), command);
-	ReportWriter writer = new ReportWriter();
-	if(command.getOutputFilePath() != null) {
-	    writer.setFilePath(command.getOutputFilePath());
+	if(command.getOutputFile() != null) {
+	    writer.setFileOutput(command.getOutputFile());
+	} else {
+	    writer.setFileOutput(null);
 	}
-	writer.write(report);
+	try {
+	    writer.write(report);
+	} catch (IOException e) {
+	    throw new IllegalArgumentException("Something went wrong");
+	}
     }
 }
