@@ -50,19 +50,28 @@ public class CollectorStat implements Collector {
             throw new IllegalArgumentException("There are a lot of arguments, but expected only 1");
         }
         for (ParamType paramType : command.getToWrite()) {
-        if (paramType == ParamType.URL) {
-            objectLogs = logStream.map(Log::getRequest);
-        } else if (paramType == ParamType.IP) {
-            objectLogs = logStream.map(Log::getIp);
-        } else if (paramType == ParamType.HTTPVERSION) {
-            objectLogs = logStream.map(Log::getHttpVersion);
-        } else if (paramType == ParamType.METHOD) {
-            objectLogs = logStream.map(log -> String.valueOf(log.getMethod()));
-        } else if (paramType == ParamType.SC) {
-            objectLogs = logStream.map(log -> String.valueOf(log.getResponseCode()));
-        } else {
-            throw new IllegalArgumentException("Failed to collect statistic using" + paramType);
-        }}
+            switch (paramType){
+                case URL -> objectLogs = logStream.map(Log::getRequest);
+                case IP ->  objectLogs = logStream.map(Log::getIp);
+                case HTTPVERSION -> objectLogs = logStream.map(Log::getHttpVersion);
+                case METHOD -> objectLogs = logStream.map(log -> String.valueOf(log.getMethod()));
+                case SC -> objectLogs = logStream.map(log -> String.valueOf(log.getResponseCode()));
+                default -> throw new IllegalArgumentException("Failed to collect statistic using" + paramType);
+            }
+//        if (paramType == ParamType.URL) {
+//            objectLogs = logStream.map(Log::getRequest);
+//        } else if (paramType == ParamType.IP) {
+//            objectLogs = logStream.map(Log::getIp);
+//        } else if (paramType == ParamType.HTTPVERSION) {
+//            objectLogs = logStream.map(Log::getHttpVersion);
+//        } else if (paramType == ParamType.METHOD) {
+//            objectLogs = logStream.map(log -> String.valueOf(log.getMethod()));
+//        } else if (paramType == ParamType.SC) {
+//            objectLogs = logStream.map(log -> String.valueOf(log.getResponseCode()));
+//        } else {
+//            throw new IllegalArgumentException("Failed to collect statistic using" + paramType);
+//        }
+        }
     }
 
     /**

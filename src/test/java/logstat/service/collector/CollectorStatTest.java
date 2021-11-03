@@ -358,13 +358,12 @@ class CollectorStatTest {
                 "where",
                 "-time",
                 "between",
-                "2019-05-04T12:15:10",
+                "2019-05-04T11:15:10",
                 "2019-05-05T12:15:10"
         };
         Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
         reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
-        statisticManual.put(log5.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
         assertEquals(statisticManual, reporterStat.getStatRes());
     }
