@@ -1,4 +1,4 @@
-package com.softserve.logstat.collector;
+package logstat.service.collector;
 
 import com.softserve.logstat.ArgParser;
 import com.softserve.logstat.model.Command;
