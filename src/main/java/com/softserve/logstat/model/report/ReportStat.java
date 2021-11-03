@@ -1,16 +1,13 @@
-/**
- * Copyright 2021
- * 
- * All rights reserved.
- * 
- * Created on Oct 29, 2021 3:32:54 PM
- */
 package com.softserve.logstat.model.report;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Dmitriy Veretelnikov
+ * @see Report
  */
 public class ReportStat implements Report {
     private Map<String, Integer> statRes;
@@ -19,16 +16,16 @@ public class ReportStat implements Report {
         return statRes;
     }
 
-    public void setStatRes(Map<String, Integer> statRes) {
+    public void setRes(Map<String, Integer> statRes) {
         this.statRes = statRes;
     }
 
     @Override
     public List<String> getAsList() {
-        List<String> listStatResult = new ArrayList<>(statRes.size()+1);
+        List<String> listStatResult = new ArrayList<>(statRes.size() + 1);
         int sizeKey = getSizeOfTheBiggestKey(statRes);
         int sizeValue = getSizeOfTheBiggestValue(statRes);
-        if(statRes.size()!=0) {
+        if (statRes.size() != 0) {
             listStatResult.add(String.format("| %-" + sizeKey + "s | %-" + sizeValue + "s |", "Parameter", "Count"));
             Iterator<Map.Entry<String, Integer>> iterator = statRes.entrySet().iterator();
             while (iterator.hasNext()) {
@@ -37,8 +34,7 @@ public class ReportStat implements Report {
                 Integer value = statRes.getOrDefault(key, 0);
                 listStatResult.add(String.format("| %-" + sizeKey + "s | %-" + sizeValue + "d |", key, value));
             }
-        }
-        else{
+        } else {
             listStatResult.add("Nothing was found");
         }
         return listStatResult;
@@ -73,5 +69,4 @@ public class ReportStat implements Report {
         }
         return biggestValue;
     }
-
 }
