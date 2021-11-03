@@ -1,7 +1,11 @@
 # Compiled class file
 bin/*
-/pom.xml
+.idea/*
+target/*
+pom.xml
 
+<<<<<<< HEAD
+=======
 # target dir
 target/*
 
