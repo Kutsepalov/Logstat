@@ -1,11 +1,11 @@
 package com.softserve.logstat.service.collector;
-
 import com.softserve.logstat.model.Command;
-import com.softserve.logstat.model.ParamType;
 import com.softserve.logstat.model.Log;
 import com.softserve.logstat.model.report.Report;
 import com.softserve.logstat.model.report.ReportStat;
+import com.softserve.logstat.service.parser.ParamType;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -46,19 +46,23 @@ public class CollectorStat implements Collector {
      * @param command represents instance of class Command witch contains parsed cmd arguments.
      */
     private void collectionByMainParam(Command command) {
-        if (command.getParamType() == ParamType.URL) {
+        if (command.getToWrite().size() > 1) {
+            throw new IllegalArgumentException("There are a lot of arguments, but expected only 1");
+        }
+        for (ParamType paramType : command.getToWrite()) {
+        if (paramType == ParamType.URL) {
             objectLogs = logStream.map(Log::getRequest);
-        } else if (command.getParamType() == ParamType.IP) {
+        } else if (paramType == ParamType.IP) {
             objectLogs = logStream.map(Log::getIp);
-        } else if (command.getParamType() == ParamType.HTTPVERSION) {
+        } else if (paramType == ParamType.HTTPVERSION) {
             objectLogs = logStream.map(Log::getHttpVersion);
-        } else if (command.getParamType() == ParamType.HTTPMETHOD) {
+        } else if (paramType == ParamType.METHOD) {
             objectLogs = logStream.map(log -> String.valueOf(log.getMethod()));
-        } else if (command.getParamType() == ParamType.RC) {
+        } else if (paramType == ParamType.SC) {
             objectLogs = logStream.map(log -> String.valueOf(log.getResponseCode()));
         } else {
-            throw new IllegalArgumentException("Failed to collect statistic using" + command.getParamType());
-        }
+            throw new IllegalArgumentException("Failed to collect statistic using" + paramType);
+        }}
     }
 
     /**
@@ -68,8 +72,8 @@ public class CollectorStat implements Collector {
      * @param command represents instance of class Command witch contains parsed cmd arguments.
      */
     private void filterByAdditionalParam(Stream<Log> logs, Command command) {
-        if (!command.getPredicates().isEmpty()) {
-            logStream = logs.filter(command.getPredicates().stream().reduce(log -> true, Predicate::and));
+        if (!command.getFilters().isEmpty()) {
+            logStream = logs.filter(command.getFilters().stream().reduce(log -> true, Predicate::and));
         } else {
             logStream = logs;
         }

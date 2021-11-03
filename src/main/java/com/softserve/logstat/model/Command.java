@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.softserve.logstat.model.Log;
 import com.softserve.logstat.service.parser.ParamType;
 
 public class Command {

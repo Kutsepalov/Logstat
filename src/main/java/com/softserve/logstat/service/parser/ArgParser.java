@@ -1,6 +1,6 @@
 package com.softserve.logstat.service.parser;
 
-import com.softserve.logstat.exceptions.NoInputFileException;
+import com.softserve.logstat.service.parser.exceptions.NoInputFileException;
 import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.HTTPMethod;
 import com.softserve.logstat.model.Log;
