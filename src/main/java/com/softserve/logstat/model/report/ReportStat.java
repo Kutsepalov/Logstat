@@ -1,8 +1,8 @@
 /**
  * Copyright 2021
- * <p>
+ * 
  * All rights reserved.
- * <p>
+ * 
  * Created on Oct 29, 2021 3:32:54 PM
  */
 package com.softserve.logstat.model.report;
