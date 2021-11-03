@@ -1,4 +1,4 @@
-package com.softserve.logstat.parser;
+package com.softserve.logstat.service.parser;
 
 public enum ParamType {
     URL,
