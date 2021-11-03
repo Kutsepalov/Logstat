@@ -1,28 +1,26 @@
 /**
  * Copyright 2021
- * 
+ * <p>
  * All rights reserved.
- * 
+ * <p>
  * Created on Oct 29, 2021 3:21:03 PM
  */
 package com.softserve.logstat.service;
 
 import com.softserve.logstat.model.report.Report;
-import com.softserve.logstat.model.report.ReportStat;
 
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
+
 
 
 /**
- * @author Dmitriy Veretelnikov
+ * @author <Dmitriy Veretelnikov>
  */
 public class ReportWriter {
-    private static boolean firstLine = true;
+    private boolean firstLine = true;
     private String fileOutput;
 
     public String getFileOutput() {
@@ -41,10 +39,8 @@ public class ReportWriter {
     }
 
     public void write(Report report) throws IOException {
-        BufferedWriter bw = null;
         if (getFileOutput() != null) {
-            try {
-                bw = new BufferedWriter(new FileWriter(getFileOutput()));
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(getFileOutput()))) {
                 for (String line : report.getAsList()) {
                     if (firstLine) {
                         bw.write(line);
@@ -55,8 +51,6 @@ public class ReportWriter {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                bw.close();
             }
         } else {
             for (String line : report.getAsList()) {
@@ -64,4 +58,5 @@ public class ReportWriter {
             }
         }
     }
+
 }

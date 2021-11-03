@@ -1,13 +1,16 @@
+/**
+ * Copyright 2021
+ * 
+ * All rights reserved.
+ * 
+ * Created on Oct 29, 2021 3:32:54 PM
+ */
 package com.softserve.logstat.model.report;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Dmitriy Veretelnikov
- * @see Report
  */
 public class ReportStat implements Report {
     private Map<String, Integer> statRes;
@@ -16,17 +19,7 @@ public class ReportStat implements Report {
         return statRes;
     }
 
-    /**
-     * Sets map to display
-     *
-     * @param statRes input map
-     * @throws IllegalArgumentException when input map is null
-     */
-    public void setRes(Map<String, Integer> statRes) {
-        if (statRes == null) {
-            throw new IllegalArgumentException("Input map is null");
-        }
-
+    public void setStatRes(Map<String, Integer> statRes) {
         this.statRes = statRes;
     }
 
@@ -35,11 +28,9 @@ public class ReportStat implements Report {
         List<String> listStatResult = new ArrayList<>(statRes.size() + 1);
         int sizeKey = getSizeOfTheBiggestKey(statRes);
         int sizeValue = getSizeOfTheBiggestValue(statRes);
-        if (!statRes.isEmpty()) {
+        if (statRes.size() != 0) {
             listStatResult.add(String.format("| %-" + sizeKey + "s | %-" + sizeValue + "s |", "Parameter", "Count"));
-            Iterator<Map.Entry<String, Integer>> iterator = statRes.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<String, Integer> entry = iterator.next();
+            for (Map.Entry<String, Integer> entry : statRes.entrySet()) {
                 String key = entry.getKey();
                 Integer value = statRes.getOrDefault(key, 0);
                 listStatResult.add(String.format("| %-" + sizeKey + "s | %-" + sizeValue + "d |", key, value));
@@ -52,9 +43,7 @@ public class ReportStat implements Report {
 
     private static int getSizeOfTheBiggestKey(Map<String, Integer> map) {
         int biggestKey = 0;
-        Iterator<Map.Entry<String, Integer>> iterator = map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Integer> entry = iterator.next();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
             if (entry.getKey().length() > biggestKey) {
                 biggestKey = entry.getKey().length();
             }
@@ -65,11 +54,10 @@ public class ReportStat implements Report {
         return biggestKey;
     }
 
+
     private static int getSizeOfTheBiggestValue(Map<String, Integer> map) {
         int biggestValue = 0;
-        Iterator<Map.Entry<String, Integer>> iterator = map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Integer> entry = iterator.next();
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
             if (entry.getValue().toString().length() > biggestValue) {
                 biggestValue = entry.getValue().toString().length();
             }
