@@ -16,7 +16,17 @@ public class ReportStat implements Report {
         return statRes;
     }
 
+    /**
+     * Sets map to display
+     *
+     * @param statRes input map
+     * @throws IllegalArgumentException when input map is null
+     */
     public void setRes(Map<String, Integer> statRes) {
+        if (statRes == null) {
+            throw new IllegalArgumentException("Input map is null");
+        }
+
         this.statRes = statRes;
     }
 
@@ -25,7 +35,7 @@ public class ReportStat implements Report {
         List<String> listStatResult = new ArrayList<>(statRes.size() + 1);
         int sizeKey = getSizeOfTheBiggestKey(statRes);
         int sizeValue = getSizeOfTheBiggestValue(statRes);
-        if (statRes.size() != 0) {
+        if (!statRes.isEmpty()) {
             listStatResult.add(String.format("| %-" + sizeKey + "s | %-" + sizeValue + "s |", "Parameter", "Count"));
             Iterator<Map.Entry<String, Integer>> iterator = statRes.entrySet().iterator();
             while (iterator.hasNext()) {
