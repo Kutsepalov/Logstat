@@ -374,7 +374,7 @@ public class ArgParser {
             }
             if (predicatesCount > 0) {
                 if (!arguments[i + 1].equals("between")) {
-                    if ((arguments[i].equals("-" + filter)) && isNumeric(arguments[i + 2]) || isDate(arguments[i + 2])) {
+                    if ((arguments[i].equals("-" + filter)) && (isNumeric(arguments[i + 2]) || isDate(arguments[i + 2]))) {
                         var predicateValue = arguments[i + 2];
                         setPredicateByOperation(arguments[i + 1], predicates, filter, predicateValue);
                         predicatesCount--;
@@ -428,6 +428,5 @@ public class ArgParser {
 
         return count;
     }
-
 
 }
