@@ -147,7 +147,7 @@ public class ArgParser {
                 case "-agent":
                     command.addToWrite(ParamType.AGENT);
                     break;
-                case "-refferer":
+                case "-referrer":
                     command.addToWrite(ParamType.REFFERER);
                     break;
                 case "-size":
