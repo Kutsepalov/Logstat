@@ -28,7 +28,7 @@ public class CollectorTop implements Collector {
 					    command.getFilters()
 					    .stream()
 					    .reduce(cond -> true, Predicate::and))
-				.map(x -> getFieldByParam(command.getType(), x).toString())
+				.map(x -> getFieldByParam(command.getToWrite().get(0), x).toString())
 				.collect(groupingBy(log -> log, counting()))
 				.entrySet()
 				.stream()
