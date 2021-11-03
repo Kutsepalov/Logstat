@@ -109,7 +109,7 @@ class CollectorStatTest {
         statisticManual.put(log3.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
         statisticManual.put(log5.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
 
     @Test
@@ -127,7 +127,7 @@ class CollectorStatTest {
         statisticManual.put(log3.getIp(), 1);
         statisticManual.put(log4.getIp(), 1);
         statisticManual.put(log5.getIp(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
 
     @Test
@@ -142,7 +142,7 @@ class CollectorStatTest {
         statisticManual = new HashMap<>();
         statisticManual.put(String.valueOf(log1.getHttpVersion()), 4);
         statisticManual.put(String.valueOf(log5.getHttpVersion()), 2);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
 
     @Test
@@ -158,7 +158,7 @@ class CollectorStatTest {
         statisticManual.put(String.valueOf(log1.getResponseCode()), 4);
         statisticManual.put(String.valueOf(log4.getResponseCode()), 1);
         statisticManual.put(String.valueOf(log5.getResponseCode()), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -httpMethod statistic(log1,log2,copyLog1 -> GET, log3,log4-> POST log5 -> PUT).")
@@ -173,7 +173,7 @@ class CollectorStatTest {
         statisticManual.put(String.valueOf(log1.getMethod()), 3);
         statisticManual.put(String.valueOf(log3.getMethod()), 2);
         statisticManual.put(String.valueOf(log5.getMethod()), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by size with less(one log is copy).The log5,log3 will not be in result")
@@ -192,7 +192,7 @@ class CollectorStatTest {
         statisticManual.put(copyLog1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by size with more(one log is copy).The log2,log1,log1Copy will not be in result")
@@ -211,7 +211,7 @@ class CollectorStatTest {
         statisticManual.put(log2.getRequest(), 2);
         statisticManual.put(log3.getRequest(), 1);
         statisticManual.put(log5.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by 2 different size(one log is copy).The log5,log2,log1,log1Copy will not be in result")
@@ -232,7 +232,7 @@ class CollectorStatTest {
         statisticManual = new HashMap<>();
         statisticManual.put(log2.getRequest(), 2);
         statisticManual.put(log3.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by size with equals(one log is copy).The log5 will be in result")
@@ -249,7 +249,7 @@ class CollectorStatTest {
         reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by size with not equals(one log is copy).The log5 will not be in result")
@@ -269,7 +269,7 @@ class CollectorStatTest {
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log3.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with not equals(one log is copy).The log5 will not be in result")
@@ -289,7 +289,7 @@ class CollectorStatTest {
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log3.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with equals(one log is copy).The log5 will not be in result")
@@ -306,7 +306,7 @@ class CollectorStatTest {
         reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with less(one log is copy).The log5,log4 will not be in result")
@@ -325,7 +325,7 @@ class CollectorStatTest {
         statisticManual.put(log1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log3.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with more(one log is copy).The log5,log4 will be in result")
@@ -343,7 +343,7 @@ class CollectorStatTest {
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
     @DisplayName("Find -url statistic limiting by time with between(one log is copy).The log5,log4 will be in result")
@@ -362,6 +362,6 @@ class CollectorStatTest {
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
         statisticManual.put(log4.getRequest(), 1);
-        assertEquals(statisticManual, reporterStat.getRes());
+        assertEquals(statisticManual, reporterStat.getStatRes());
     }
 }

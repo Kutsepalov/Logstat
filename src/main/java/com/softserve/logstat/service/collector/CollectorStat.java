@@ -17,16 +17,16 @@ import java.util.stream.Stream;
  * The class has private field objectLogs, that's field represents stream which was filtered by main arguments.
  * The class has private field logStream, that's field represents stream which was filtered by additional arguments.
  * The class has private field res, that's field represents collection with result statistic.
+ *
  * @author Dmitri Chistiuk
  */
-public class CollectorStat implements Collector{
+public class CollectorStat implements Collector {
     private Stream<String> objectLogs;
     private Stream<Log> logStream;
     private Map<String, Integer> res;
 
     /**
-     *
-     * @param logs represents stream from instances of class Log. Instances are logs from input file.
+     * @param logs    represents stream from instances of class Log. Instances are logs from input file.
      * @param command represents instance of class Command witch contains parsed cmd arguments.
      * @return interface instance Report witch responsible for writing result statistic correctly.
      * @throws IllegalArgumentException when as main argument gets unexpected parameter.
@@ -36,12 +36,13 @@ public class CollectorStat implements Collector{
         collectionByMainParam(command);
         res = objectLogs.collect(Collectors.toMap(Function.identity(), value -> 1, Integer::sum));
         ReportStat reporterStat = new ReportStat();
-        reporterStat.setRes(res);
+        reporterStat.setStatRes(res);
         return reporterStat;
     }
 
     /**
      * The method implements a logic for filtering logStream by main arguments such as IP,CR,URL,HTTPVersion
+     *
      * @param command represents instance of class Command witch contains parsed cmd arguments.
      */
     private void collectionByMainParam(Command command) {
@@ -62,7 +63,8 @@ public class CollectorStat implements Collector{
 
     /**
      * The method implements a logic for filtering logs by additional arguments such as -time or -size.
-     * @param logs represents stream from instances of class Log. Instances are logs from input file.
+     *
+     * @param logs    represents stream from instances of class Log. Instances are logs from input file.
      * @param command represents instance of class Command witch contains parsed cmd arguments.
      */
     private void filterByAdditionalParam(Stream<Log> logs, Command command) {
