@@ -10,12 +10,23 @@ public class Command {
     private List<Predicate<Log>> filters;
     private List<ParamType> toWrite = new ArrayList<>();
     private Predicate<Log> toFind;
+    private ParamType type;
     private int limit;
     private String collectorType;
     private String inputFile;
     private String outputFile;
 
-    public Predicate<Log> getToFind() {
+    
+    
+    public ParamType getType() {
+		return type;
+	}
+
+	public void setType(ParamType type) {
+		this.type = type;
+	}
+
+	public Predicate<Log> getToFind() {
         return toFind;
     }
 
