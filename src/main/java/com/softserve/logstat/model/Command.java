@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.softserve.logstat.model.Log;
 import com.softserve.logstat.service.parser.ParamType;
 
+/**
+ * @author Roman Grabovetskyi
+ * 
+ */
 public class Command {
     private List<Predicate<Log>> filters;
     private List<ParamType> toWrite = new ArrayList<>();
