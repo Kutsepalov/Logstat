@@ -1,5 +1,17 @@
 # Compiled class file
 bin/*
+.idea/*
+target/*
+pom.xml
+
+# target dir
+target/*
+
+# .idea dir
+.idea/*
+
+# .pom file
+*.xml
 
 # Log file
 *.log

@@ -9,9 +9,9 @@ package com.softserve.logstat.service.collector;
 
 import java.util.stream.Stream;
 
+import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.Log;
 import com.softserve.logstat.model.report.Report;
-import com.softserve.logstat.model.Command;
 
 /**
  * @author <paste here your name>

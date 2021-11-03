@@ -7,6 +7,19 @@
  */
 package com.softserve.logstat;
 
+import com.softserve.logstat.model.Command;
+import com.softserve.logstat.model.HTTPMethod;
+import com.softserve.logstat.model.Log;
+import com.softserve.logstat.model.report.ReportStat;
+import com.softserve.logstat.service.collector.Collector;
+import com.softserve.logstat.service.collector.CollectorStat;
+import com.softserve.logstat.service.parser.ArgParser;
+
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author <paste here your name>
  *

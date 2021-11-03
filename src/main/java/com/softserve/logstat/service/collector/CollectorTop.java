@@ -4,21 +4,14 @@ package com.softserve.logstat.service.collector;
 import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.Log;
 import com.softserve.logstat.model.report.Report;
-import com.softserve.logstat.model.report.ReportTop;
-import com.softserve.logstat.service.parser.ParamType;
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
-import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author Roman Grabovetskyi
- * mock class
+ * @author Max Silchenk
+ *
  */
 public class CollectorTop implements Collector {
+
 
 
 	@Override
@@ -65,4 +58,5 @@ public class CollectorTop implements Collector {
 		};
 		return val;
 	}
+
 }
