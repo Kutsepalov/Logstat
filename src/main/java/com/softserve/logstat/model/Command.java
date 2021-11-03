@@ -1,18 +1,28 @@
 package com.softserve.logstat.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-/**
- * Класс-заглушка для тестов
- * @author Dmitri Chistiuk
- */
-public class Command {
-    private int limit;
-    private ParamType paramType;
-    private String collectorType;
-    private List<Predicate<Log>> predicates;
+import com.softserve.logstat.model.Log;
+import com.softserve.logstat.service.parser.ParamType;
 
+public class Command {
+    private List<Predicate<Log>> filters;
+    private List<ParamType> toWrite = new ArrayList<>();
+    private Predicate<Log> toFind;
+    private int limit;
+    private String collectorType;
+    private String inputFile;
+    private String outputFile;
+
+    public Predicate<Log> getToFind() {
+        return toFind;
+    }
+
+    public void setToFind(Predicate<Log> toFind) {
+        this.toFind = toFind;
+    }
 
     public int getLimit() {
         return limit;
@@ -22,12 +32,40 @@ public class Command {
         this.limit = limit;
     }
 
-    public List<Predicate<Log>> getPredicates() {
-        return predicates;
+    public List<Predicate<Log>> getFilters() {
+        return filters;
     }
 
-    public void setPredicates(List<Predicate<Log>> predicates) {
-        this.predicates = predicates;
+    public void setFilters(List<Predicate<Log>> filters) {
+        this.filters = filters;
+    }
+
+    public List<ParamType> getToWrite() {
+        return toWrite;
+    }
+
+    public void setToWrite(List<ParamType> toWrite) {
+        this.toWrite = toWrite;
+    }
+
+    public String getInputFile() {
+        return inputFile;
+    }
+
+    public void setInputFile(String inputFile) {
+        this.inputFile = inputFile;
+    }
+
+    public String getOutputFile() {
+        return outputFile;
+    }
+
+    public void setOutputFile(String outputFile) {
+        this.outputFile = outputFile;
+    }
+
+    public void addToWrite(ParamType paramType) {
+        this.toWrite.add(paramType);
     }
 
     public String getCollectorType() {
@@ -38,21 +76,16 @@ public class Command {
         this.collectorType = collectorType;
     }
 
-    public ParamType getParamType() {
-        return paramType;
-    }
-
-    public void setParamType(ParamType paramType) {
-        this.paramType = paramType;
-    }
-
     @Override
     public String toString() {
         return "Command{" +
-                "limit=" + limit +
-                ", paramType=" + paramType +
+                "filters=" + filters +
+                ", toWrite=" + toWrite +
+                ", toFind=" + toFind +
+                ", limit=" + limit +
                 ", collectorType='" + collectorType + '\'' +
-                ", predicates=" + predicates +
+                ", inputFile='" + inputFile + '\'' +
+                ", outputFile='" + outputFile + '\'' +
                 '}';
     }
 }
