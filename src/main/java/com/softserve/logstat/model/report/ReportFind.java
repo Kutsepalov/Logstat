@@ -8,6 +8,7 @@
 package com.softserve.logstat.model.report;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author <paste here your name>
@@ -20,5 +21,9 @@ public class ReportFind implements Report {
 	// TODO Auto-generated method stub
 	return null;
     }
+    
+    public ReportFind(Map<String, List<String>> info) {
+		// TODO Auto-generated constructor stub
+	}
     
 }
