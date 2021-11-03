@@ -1,6 +1,5 @@
 package com.softserve.logstat.service.collector;
 
-
 import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.Log;
 import com.softserve.logstat.model.report.Report;
@@ -8,54 +7,47 @@ import com.softserve.logstat.model.report.ReportTop;
 import com.softserve.logstat.service.parser.ParamType;
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
-import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author Roman Grabovetskyi
- * mock class
+ * @author Roman Grabovetskyi mock class
  */
 public class CollectorTop implements Collector {
 
-
 	@Override
-	public Report collect(Stream<Log> logs,Command command) {
-		var wrapper=new Object(){ long place=1;};
-		
-		var result=logs.
-				filter(command.getFilters().isEmpty()?
-					log -> true:
-					command.getFilters().	
-					stream().
-					reduce(cond -> true, Predicate::and)).
-				map(x -> getFieldByParam(command.getType(), x).toString()).
-				collect(groupingBy(log -> log ,counting())).
-				entrySet().
-				stream().
-				sorted((x,y) -> y.getValue().compareTo(x.getValue())).
-				limit(command.getLimit()).
-				peek(log -> setPosition(log, wrapper.place++)).
-				collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().intValue()));
-		
+	public Report collect(Stream<Log> logs, Command command) {
+		var wrapper = new Object() {
+			long place = 1;
+		};
+
+		var result = logs
+				.filter(command.getFilters().isEmpty() ? 
+						log -> true :
+					    command.getFilters().stream().reduce(cond -> true, Predicate::and))
+				.map(x -> getFieldByParam(command.getType(), x).toString()).collect(groupingBy(log -> log, counting()))
+				.entrySet().stream().sorted((x, y) -> y.getValue().compareTo(x.getValue())).limit(command.getLimit())
+				.peek(log -> setPosition(log, wrapper.place++))
+				.collect(Collectors.toMap(Entry::getKey, entry -> entry.getValue().intValue()));
+
 		return new ReportTop(result);
-		        
+
 	}
 
-	protected Entry<String,Long> setPosition(Entry<String, Long> val, long position) {
+	protected Entry<String, Long> setPosition(Entry<String, Long> val, long position) {
 		val.setValue(position);
 		return val;
 	}
 
 	protected Object getFieldByParam(ParamType type, Log log) {
 		Object val = null;
-		val=switch (type) {
+		val = switch (type) {
 		case URL -> log.getRequest();
-		case IP ->log.getIp();
+		case IP -> log.getIp();
 		case SIZE -> log.getResponseSize();
-		case SC ->  log.getResponseCode();
+		case SC -> log.getResponseCode();
 		case DATETIME -> log.getDateTime();
 		case AGENT -> log.getUserAgent();
 		case HTTPVERSION -> log.getHttpVersion();
