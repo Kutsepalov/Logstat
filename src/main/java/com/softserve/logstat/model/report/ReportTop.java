@@ -7,34 +7,46 @@ import java.util.Map;
 
 /**
  * @author Bohachov Maksym
+ * @see Report
  */
 public class ReportTop implements Report {
-    private final Map<String, Integer> info;
+    private Map<String, Integer> info;
     private int length;
 
     /**
-     * Creates instance of ReportTop
-     * @param info - input map
+     * Creates instance of ReportTop, sets default length of column to 0
      */
-    public ReportTop(Map<String, Integer> info) {
+    public ReportTop() {
+        length = 0;
+    }
+
+    /**
+     * Sets map to display, changes length if info isn't empty
+     *
+     * @param info input map
+     * @throws IllegalArgumentException when input map is null
+     */
+    public void setRes(Map<String, Integer> info) {
+        if (info == null) {
+            throw new IllegalArgumentException("Input map is null");
+        }
+
         this.info = info;
 
-        length = 0;
-
         if (!info.isEmpty()) {
-            checkLength();
+            computeLength();
         }
     }
 
     /**
-     * Computes length of column based on max length of keySet's elements
+     * Computes length of column based on the max length of keySet's elements
      */
-    private void checkLength() {
+    private void computeLength() {
         Iterator<String> iterator = info.keySet().iterator();
 
         length = iterator.next().length();
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             length = Math.max(iterator.next().length(), length);
         }
     }
@@ -43,7 +55,8 @@ public class ReportTop implements Report {
     public List<String> getAsList() {
         List<String> result = new ArrayList<>(info.size() + 1);
 
-        if(length > 0) {
+        // Checks non-zero max length
+        if (length > 0) {
             Iterator<String> iterator = info.keySet().iterator();
 
             result.add(String.format("| %-" + length + "s | %-9s |", "Key", "Value"));
