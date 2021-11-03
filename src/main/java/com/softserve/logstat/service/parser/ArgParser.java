@@ -1,15 +1,17 @@
 package com.softserve.logstat.service.parser;
 
-import com.softserve.logstat.service.parser.exceptions.NoInputFileException;
 import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.HTTPMethod;
 import com.softserve.logstat.model.Log;
+import com.softserve.logstat.service.parser.exceptions.NoInputFileException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -17,8 +19,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ArgParser {
+    private static final  String HTTP_METHOD = "httpmethod";
 
-    public Command chooseCollectorType(String[] args, Command command) {
+    public void chooseCollectorType(String[] args, Command command) {
 
         if (Objects.equals(args[0], "top")) {
             setCollector(args, "top", command);
@@ -33,7 +36,6 @@ public class ArgParser {
             setPredicatesFilter(args, command);
             setParamTypes(args, command, findParamKey(args));
         }
-        return command;
     }
 
     public Command parseStart(String[] args) throws NoInputFileException {
@@ -52,18 +54,18 @@ public class ArgParser {
 
     private void setOutputAndInput(String[] args, Command command, int filesCount) {
         int count = 0;
-        for (int i = 0; i < args.length; i++) {
+        for (String arg : args) {
             if (count == 2) {
                 break;
             }
-            if (isTxt(args[i]) && count != 1) {
-                command.setInputFile(args[i]);
+            if (isTxt(arg) && count != 1) {
+                command.setInputFile(arg);
                 if (filesCount == 1) {
                     break;
                 }
                 count++;
-            } else if (isTxt(args[i]) && count == 1) {
-                command.setOutputFile(args[i]);
+            } else if (isTxt(arg) && count == 1) {
+                command.setOutputFile(arg);
                 count++;
             }
         }
@@ -82,11 +84,12 @@ public class ArgParser {
 
     private boolean isTxt(String string) {
         Matcher m = Pattern.compile(".txt").matcher(string);
+        boolean res = false;
 
         if (m.find()) {
-            return true;
+            res =  true;
         }
-        return false;
+        return res;
     }
 
     private int countTxtFiles(String[] args) {
@@ -96,7 +99,7 @@ public class ArgParser {
                 .matcher(argString);
 
 
-        for (String s : args) {
+        for (int i = 0; i < args.length; i++) {
             if (m.find()) {
                 count++;
             }
@@ -112,6 +115,7 @@ public class ArgParser {
         }
         if (!isNumeric(args[1])) {
             setParamToCommand(args[1], command);
+            command.setLimit(Integer.parseInt(args[2]));
 
         } else {
             command.setLimit(Integer.parseInt(args[1]));
@@ -143,11 +147,13 @@ public class ArgParser {
                 case "-agent":
                     command.addToWrite(ParamType.AGENT);
                     break;
-                case "-refferer":
+                case "-referrer":
                     command.addToWrite(ParamType.REFFERER);
                     break;
                 case "-size":
                     command.addToWrite(ParamType.SIZE);
+                    break;
+                default:
                     break;
             }
         }
@@ -157,28 +163,28 @@ public class ArgParser {
         Predicate<Log> predicate = null;
         switch (filter) {
             case "-ip":
-                predicate = log -> (log.getIp() == value);
+                predicate = log -> (log.getIp().equals(value));
                 break;
             case "-size":
-                predicate = log -> (log.getIp() == value);
+                predicate = log -> (log.getResponseSize() == (Integer.parseInt(value)));
                 break;
             case "-sc":
-                predicate = log -> (log.getIp() == value);
+                predicate = log -> (log.getResponseCode() == Integer.parseInt(value));
                 break;
             case "-httpmethod":
-                predicate = log -> (log.getIp() == value);
+                predicate = log -> (log.getMethod() == HTTPMethod.valueOf(value));
                 break;
             case "-httpversion":
-                predicate = log -> (log.getIp() == value);
+                predicate = log -> (log.getHttpVersion().equals(value));
                 break;
             case "-agent":
-                predicate = log -> (log.getIp() == value);
+                predicate = log -> (log.getUserAgent().equals(value));
                 break;
             case "-referrer":
-                predicate = log -> (log.getIp() == value);
+                predicate = log -> (log.getReferrer().equals(value));
                 break;
             case "-time":
-                predicate = log -> (log.getIp() == value);
+                predicate = log -> (log.getDateTime() == LocalDateTime.parse(value));
                 break;
             default:
                 predicate = null;
@@ -208,6 +214,8 @@ public class ArgParser {
             case "-sc":
                 command.addToWrite(ParamType.SC);
                 break;
+            default:
+                break;
         }
     }
 
@@ -227,7 +235,7 @@ public class ArgParser {
         addPredicate(arguments, predicates, "ip");
         addPredicate(arguments, predicates, "size");
         addPredicate(arguments, predicates, "sc");
-        addPredicate(arguments, predicates, "httpmethod");
+        addPredicate(arguments, predicates, HTTP_METHOD);
         addPredicate(arguments, predicates, "httpversion");
         addPredicate(arguments, predicates, "agent");
         addPredicate(arguments, predicates, "referrer");
@@ -240,16 +248,44 @@ public class ArgParser {
         Predicate<Log> operation = null;
         switch (operator) {
             case "eq":
-                operation = log -> getFieldValue(field, log).compareTo(parseTo(value, field)) == 0;
+                operation = log -> {
+                    try {
+                        return getFieldValue(field, log).compareTo(parseTo(value, field)) == 0;
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                };
                 break;
             case "more":
-                operation = log -> getFieldValue(field, log).compareTo(parseTo(value, field)) >= 0;
+                operation = log -> {
+                    try {
+                        return getFieldValue(field, log).compareTo(parseTo(value, field)) >= 0;
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                };
                 break;
             case "less":
-                operation = log -> getFieldValue(field, log).compareTo(parseTo(value, field)) < 0;
+                operation = log -> {
+                    try {
+                        return getFieldValue(field, log).compareTo(parseTo(value, field)) < 0;
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                };
                 break;
             case "not":
-                operation = log -> getFieldValue(field, log).compareTo(parseTo(value, field)) != 0;
+                operation = log -> {
+                    try {
+                        return getFieldValue(field, log).compareTo(parseTo(value, field)) != 0;
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return false;
+                };
                 break;
             default:
                 operation = null;
@@ -273,7 +309,7 @@ public class ArgParser {
             case "sc":
                 field = log.getResponseCode();
                 break;
-            case "httpmethod":
+            case HTTP_METHOD:
                 field = log.getMethod();
                 break;
             case "httpversion":
@@ -289,26 +325,26 @@ public class ArgParser {
                 field = log.getDateTime();
                 break;
             default:
-                field = null;
+                break;
         }
         return field;
     }
 
-    protected <T> T parseTo(String value, String fieldName) {
+    protected <T> T parseTo(String value, String fieldName) throws ParseException {
         Object val = null;
         switch (fieldName) {
             case "size":
                 val = Integer.valueOf(value);
                 break;
-            case "httpmethod":
+            case HTTP_METHOD:
                 val = HTTPMethod.valueOf(value);
                 break;
             case "sc":
                 val = Short.valueOf(value);
                 break;
             case "time":
-                val = LocalDateTime.parse(value);
-                System.out.println(value.getClass());
+                Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(value);
+                val = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
                 break;
             default:
                 val = null;
@@ -318,7 +354,7 @@ public class ArgParser {
     }
 
     public boolean isDate(String date) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         dateFormat.setLenient(false);
 
         try {
@@ -338,7 +374,7 @@ public class ArgParser {
             }
             if (predicatesCount > 0) {
                 if (!arguments[i + 1].equals("between")) {
-                    if ((arguments[i].equals("-" + filter)) && isNumeric(arguments[i + 2]) || isDate(arguments[i + 2])) {
+                    if ((arguments[i].equals("-" + filter)) && (isNumeric(arguments[i + 2]) || isDate(arguments[i + 2]))) {
                         var predicateValue = arguments[i + 2];
                         setPredicateByOperation(arguments[i + 1], predicates, filter, predicateValue);
                         predicatesCount--;
@@ -355,13 +391,13 @@ public class ArgParser {
 
 
     public void setPredicateByOperation(String operation, List<Predicate<Log>> predicates, String filter, String predicateValue) {
-        if (operation == "eq") {
+        if (operation.equals("eq")) {
             predicates.add(getFilter(filter, "eq", String.valueOf(predicateValue)));
-        } else if (operation == "not") {
+        } else if (operation.equals("not")) {
             predicates.add(getFilter(filter, "not", String.valueOf(predicateValue)));
-        } else if (operation == "more") {
+        } else if (operation.equals("more")) {
             predicates.add(getFilter(filter, "more", String.valueOf(predicateValue)));
-        } else if (operation == "less") {
+        } else if (operation.equals("less")) {
             predicates.add(getFilter(filter, "less", String.valueOf(predicateValue)));
         }
     }
@@ -378,12 +414,12 @@ public class ArgParser {
                 .matcher(argString);
 
 
-        for (String s : arguments) {
+        for (int i = 0; i < arguments.length; i++) {
             if (m.find()) {
                 count++;
             }
         }
-        if (count == 0 || filter == "time") {
+        if (count == 0 || filter.equals("time")) {
             m = Pattern.compile("(" + filter + ")(\\s)(between)").matcher(argString);
             if (m.find()) {
                 count += 2;
@@ -392,4 +428,5 @@ public class ArgParser {
 
         return count;
     }
+
 }

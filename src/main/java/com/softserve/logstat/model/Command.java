@@ -1,10 +1,10 @@
 package com.softserve.logstat.model;
 
+import com.softserve.logstat.service.parser.ParamType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-
-import com.softserve.logstat.service.parser.ParamType;
 
 public class Command {
     private List<Predicate<Log>> filters;
