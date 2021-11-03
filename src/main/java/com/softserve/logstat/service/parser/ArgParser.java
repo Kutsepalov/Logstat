@@ -19,7 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ArgParser {
-    private static final  String HTTP_METHOD = "httpmethod";
+    private static final String HTTP_METHOD = "httpmethod";
 
     public void chooseCollectorType(String[] args, Command command) {
 
@@ -40,7 +40,6 @@ public class ArgParser {
 
     public Command parseStart(String[] args) throws NoInputFileException {
         Command command = new Command();
-        chooseCollectorType(args, command);
 
         if (countTxtFiles(args) == 2) {
             setOutputAndInput(args, command, 2);
@@ -49,6 +48,7 @@ public class ArgParser {
         } else {
             throw new NoInputFileException("There is no input file");
         }
+        chooseCollectorType(args, command);
         return command;
     }
 
@@ -87,7 +87,7 @@ public class ArgParser {
         boolean res = false;
 
         if (m.find()) {
-            res =  true;
+            res = true;
         }
         return res;
     }
@@ -115,10 +115,14 @@ public class ArgParser {
         }
         if (!isNumeric(args[1])) {
             setParamToCommand(args[1], command);
-            command.setLimit(Integer.parseInt(args[2]));
+            if(isNumeric(args[2])){
+                command.setLimit(Integer.parseInt(args[2]));
+            }
 
         } else {
-            command.setLimit(Integer.parseInt(args[1]));
+            if(isNumeric(args[1])){
+                command.setLimit(Integer.parseInt(args[1]));
+            }
             setParamToCommand(args[2], command);
         }
     }
@@ -428,5 +432,6 @@ public class ArgParser {
 
         return count;
     }
+
 
 }

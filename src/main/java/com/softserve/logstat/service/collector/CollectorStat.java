@@ -36,7 +36,7 @@ public class CollectorStat implements Collector {
         collectionByMainParam(command);
         res = objectLogs.collect(Collectors.toMap(Function.identity(), value -> 1, Integer::sum));
         ReportStat reporterStat = new ReportStat();
-        reporterStat.setStatRes(res);
+        reporterStat.setRes(res);
         return reporterStat;
     }
 
@@ -58,19 +58,6 @@ public class CollectorStat implements Collector {
                 case SC -> objectLogs = logStream.map(log -> String.valueOf(log.getResponseCode()));
                 default -> throw new IllegalArgumentException("Failed to collect statistic using" + paramType);
             }
-//        if (paramType == ParamType.URL) {
-//            objectLogs = logStream.map(Log::getRequest);
-//        } else if (paramType == ParamType.IP) {
-//            objectLogs = logStream.map(Log::getIp);
-//        } else if (paramType == ParamType.HTTPVERSION) {
-//            objectLogs = logStream.map(Log::getHttpVersion);
-//        } else if (paramType == ParamType.METHOD) {
-//            objectLogs = logStream.map(log -> String.valueOf(log.getMethod()));
-//        } else if (paramType == ParamType.SC) {
-//            objectLogs = logStream.map(log -> String.valueOf(log.getResponseCode()));
-//        } else {
-//            throw new IllegalArgumentException("Failed to collect statistic using" + paramType);
-//        }
         }
     }
 

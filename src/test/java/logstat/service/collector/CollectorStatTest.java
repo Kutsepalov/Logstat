@@ -18,6 +18,7 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CollectorStatTest {
+    private ArgParser argParser = new ArgParser();
     private Command entryCommand = new Command();
     private ArrayList<Log> logs = new ArrayList<>();
     private CollectorStat collectorStat;
@@ -100,10 +101,13 @@ class CollectorStatTest {
     void collect1() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "stat",
-                "-url"
+                "-url",
+
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        argParser.chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(copyLog1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
@@ -118,10 +122,12 @@ class CollectorStatTest {
     void collect2() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "stat",
-                "-ip"
+                "-ip",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(log1.getIp(), 2);
         statisticManual.put(log2.getIp(), 1);
@@ -136,10 +142,12 @@ class CollectorStatTest {
     void collect3() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "stat",
-                "-httpv"
+                "-httpv",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(String.valueOf(log1.getHttpVersion()), 4);
         statisticManual.put(String.valueOf(log5.getHttpVersion()), 2);
@@ -151,10 +159,12 @@ class CollectorStatTest {
     void collect4() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "stat",
-                "-sc"
+                "-sc",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(String.valueOf(log1.getResponseCode()), 4);
         statisticManual.put(String.valueOf(log4.getResponseCode()), 1);
@@ -166,10 +176,12 @@ class CollectorStatTest {
     void collect5() throws IllegalArgumentException {
         String[] arguments = new String[]{
                 "stat",
-                "-httpm"
+                "-httpm",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(String.valueOf(log1.getMethod()), 3);
         statisticManual.put(String.valueOf(log3.getMethod()), 2);
@@ -185,10 +197,12 @@ class CollectorStatTest {
                 "where",
                 "-size",
                 "less",
-                "500"
+                "500",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(copyLog1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
@@ -204,10 +218,12 @@ class CollectorStatTest {
                 "where",
                 "-size",
                 "more",
-                "400"
+                "400",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log3.getRequest(), 1);
@@ -228,10 +244,12 @@ class CollectorStatTest {
                 "and",
                 "-size",
                 "less",
-                "700"
+                "700",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(log2.getRequest(), 1);
         statisticManual.put(log3.getRequest(), 1);
@@ -247,10 +265,12 @@ class CollectorStatTest {
                 "where",
                 "-size",
                 "eq",
-                "700"
+                "700",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
         assertEquals(statisticManual, reporterStat.getStatRes());
@@ -264,10 +284,12 @@ class CollectorStatTest {
                 "where",
                 "-size",
                 "not",
-                "700"
+                "700",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(log1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
@@ -284,10 +306,12 @@ class CollectorStatTest {
                 "where",
                 "-time",
                 "not",
-                "2019-05-05T12:15:10"
+                "2019-05-05T12:15:10",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(log1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
@@ -304,10 +328,12 @@ class CollectorStatTest {
                 "where",
                 "-time",
                 "eq",
-                "2019-05-05T12:15:10"
+                "2019-05-05T12:15:10",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(log5.getRequest(), 1);
         assertEquals(statisticManual, reporterStat.getStatRes());
@@ -321,10 +347,12 @@ class CollectorStatTest {
                 "where",
                 "-time",
                 "less",
-                "2019-05-04T12:15:10"
+                "2019-05-04T12:15:10",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(log1.getRequest(), 2);
         statisticManual.put(log2.getRequest(), 1);
@@ -340,13 +368,16 @@ class CollectorStatTest {
                 "where",
                 "-time",
                 "less",
-                "2019-05-04T12:15:10"
+                "2019-05-04T12:15:10",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
-        statisticManual.put(log5.getRequest(), 1);
-        statisticManual.put(log4.getRequest(), 1);
+        statisticManual.put(log1.getRequest(), 2);
+        statisticManual.put(log2.getRequest(), 1);
+        statisticManual.put(log3.getRequest(), 1);
         assertEquals(statisticManual, reporterStat.getStatRes());
     }
     @Test
@@ -359,10 +390,12 @@ class CollectorStatTest {
                 "-time",
                 "between",
                 "2019-05-04T11:15:10",
-                "2019-05-05T12:15:10"
+                "2019-05-05T12:15:10",
+                "ww.txt",
+                "33.txt"
         };
-        Command command = new ArgParser().chooseCollectorType(arguments,entryCommand);
-        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),command);
+        new ArgParser().chooseCollectorType(arguments,entryCommand);
+        reporterStat = (ReportStat) collectorStat.collect(logs.stream(),entryCommand);
         statisticManual = new HashMap<>();
         statisticManual.put(log4.getRequest(), 1);
         assertEquals(statisticManual, reporterStat.getStatRes());
