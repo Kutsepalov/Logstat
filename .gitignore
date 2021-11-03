@@ -4,18 +4,12 @@ bin/*
 target/*
 pom.xml
 
-<<<<<<< HEAD
-=======
-# target dir
-target/*
-
 # .idea dir
 .idea/*
 
 # .pom file
 *.xml
 
->>>>>>> 6f9b496 (smth)
 # Log file
 *.log
 
