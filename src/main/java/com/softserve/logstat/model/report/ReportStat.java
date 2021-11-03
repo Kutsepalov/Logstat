@@ -54,6 +54,7 @@ public class ReportStat implements Report {
         return biggestKey;
     }
 
+
     private static int getSizeOfTheBiggestValue(Map<String, Integer> map) {
         int biggestValue = 0;
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
