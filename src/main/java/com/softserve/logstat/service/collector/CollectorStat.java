@@ -1,11 +1,11 @@
 package com.softserve.logstat.service.collector;
+
 import com.softserve.logstat.model.Command;
 import com.softserve.logstat.model.Log;
 import com.softserve.logstat.model.report.Report;
 import com.softserve.logstat.model.report.ReportStat;
 import com.softserve.logstat.service.parser.ParamType;
 
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -36,7 +36,7 @@ public class CollectorStat implements Collector {
         collectionByMainParam(command);
         res = objectLogs.collect(Collectors.toMap(Function.identity(), value -> 1, Integer::sum));
         ReportStat reporterStat = new ReportStat();
-        reporterStat.setRes(res);
+        reporterStat.setStatRes(res);
         return reporterStat;
     }
 
