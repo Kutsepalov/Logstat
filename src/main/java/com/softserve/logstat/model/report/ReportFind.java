@@ -19,6 +19,9 @@ public class ReportFind implements Report {
 
     private Map<String, List<String>> findResult;
 
+    public ReportFind(Map<String, List<String>> info) {
+	findResult = info;
+    }
 
     /**
      * Sets map to display
@@ -50,9 +53,5 @@ public class ReportFind implements Report {
             listFindResult.add("\t" + value);
         }
     }
-    
-    public ReportFind(Map<String, List<String>> info) {
-		// TODO Auto-generated constructor stub
-	}
     
 }
