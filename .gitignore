@@ -1,5 +1,17 @@
 # Compiled class file
 bin/*
+.idea/*
+target/*
+pom.xml
+
+# target dir
+target/*
+
+# .idea dir
+.idea/*
+
+# .pom file
+*.xml
 
 # Log file
 *.log
@@ -22,6 +34,10 @@ bin/*
 *.classpath
 *.project
 *.settings/
+
+
+.idea/
+target/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
